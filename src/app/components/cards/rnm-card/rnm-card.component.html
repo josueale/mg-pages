@@ -1,0 +1,17 @@
+<a _href="link" class="cursor-pointer">
+  <figure>
+    <!-- Image -->
+    <img class="rounded-t h-72 w-full object-cover" src={{character.image}}>
+
+    <figcaption class="p-4">
+      <!-- Title -->
+      <p class="text-lg mb-4 font-bold leading-relaxed text-gray-800 dark:text-gray-300" x-text="post.title">{{
+        character?.name}}</p>
+
+      <!-- Description -->
+      <small class="leading-5 text-gray-500 dark:text-gray-400" x-text="post.description">
+        {{character.species}} - {{character.status}}
+      </small>
+    </figcaption>
+  </figure>
+</a>
