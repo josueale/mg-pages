@@ -4,6 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MainLogoComponent } from './components/logos/main-logo/main-logo.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { LandingHeroComponent } from './pages/home/components/landing-hero/landing-hero.component';
 import { HomeComponent } from './pages/home/home.component';
@@ -16,15 +17,14 @@ import { HomeComponent } from './pages/home/home.component';
 
     NavbarComponent,
     LandingHeroComponent,
-
-
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule,
+    MainLogoComponent,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
