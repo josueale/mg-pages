@@ -19,6 +19,23 @@ export class RickAndMortyComponent {
 
   public characters: RickAndMortyCharacter[] = [];
 
+  handleNavigate() {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: this.queryParams,
+      queryParamsHandling: 'merge', // remove to replace all query params by provided
+    });
+  }
+
+  clearSearch():void {
+    this.queryParams['name'] = null;
+    this.handleNavigate();
+
+    this.RickAndMortySvc.searchCharacter('').subscribe((result) => {
+      this.characters = result.results;
+    });
+  }
+
   onSearch(value: string) {
     this.RickAndMortySvc.searchCharacter(value).subscribe((result) => {
       this.characters = result.results;
@@ -26,11 +43,7 @@ export class RickAndMortyComponent {
 
     this.queryParams['name'] = value;
 
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: this.queryParams,
-      queryParamsHandling: 'merge', // remove to replace all query params by provided
-    });
+    this.handleNavigate();
   }
 
   ngOnInit() {

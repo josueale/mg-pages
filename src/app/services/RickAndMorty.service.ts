@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { RickAndMortyApi as API } from 'src/environments/environment';
+import { environment } from 'src/environments/environment';
 import { RickAndMortyApiResult } from '../types/RickAndMorty.inteface';
 
 @Injectable({
@@ -17,14 +17,16 @@ export class RickAndMortyService implements Resolve<RickAndMortyApiResult> {
       ? `?name=${route.queryParams['name']}`
       : '';
 
-    return this.http.get<RickAndMortyApiResult>(`${API}/character${query}`);
+    return this.http.get<RickAndMortyApiResult>(
+      `${environment.RickAndMortyApi}/character${query}`
+    );
   }
 
   searchCharacter(
     characterToFind: string = ''
   ): Observable<RickAndMortyApiResult> {
     return this.http.get<RickAndMortyApiResult>(
-      `${API}/character?name=${characterToFind}`
+      `${environment.RickAndMortyApi}/character?name=${characterToFind}`
     );
   }
 }

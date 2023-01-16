@@ -10,9 +10,13 @@ import { debounceTime, distinctUntilChanged, filter, map, tap } from 'rxjs';
   templateUrl: './search.component.html',
 })
 export class SearchComponent implements OnInit {
-
   @Input() filterName: string = '';
 
+  @Input() buttonType: string = 'submit';
+  @Input() buttonName: string = 'Search';
+  @Input() formShouldReset: boolean = false;
+
+  @Output() buttonFunction= new EventEmitter();
   @Output() onSubmiting = new EventEmitter<string>();
 
   inputSearch = new FormControl('', { nonNullable: true });
@@ -20,6 +24,14 @@ export class SearchComponent implements OnInit {
   handleSubmit(event: any) {
     // this.onSubmiting.emit(this.inputSearch.value);
     event.preventDefault();
+  }
+
+  onClick(){
+    this.buttonFunction.emit(this)
+
+    if(this.formShouldReset){
+      this.inputSearch.reset()
+    }
   }
 
   onChange(): void {
