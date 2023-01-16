@@ -7,12 +7,12 @@ import { RnmService } from './services/RickAndMorty.service';
 const routes: Routes = [
   { path: '', component: HomeComponent },
   {
-    path: 'rnm',
+    path: 'rick-and-morty',
     resolve: {
       response: RnmService,
     },
     loadChildren: () =>
-      import('./pages/rnm/rnm.module').then((m) => m.RnmModule),
+      import('./pages/rick-and-morty/rick-and-morty.module').then((m) => m.RickAndMortyModule),
   },
 ];
 

@@ -1,14 +1,18 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-rnm',
-  templateUrl: './rnm.component.html',
+  selector: 'app-rick-and-morty',
+  templateUrl: './rick-and-morty.component.html',
 })
-export class RnmComponent implements OnInit {
+export class RickAndMortyComponent {
   private readonly route = inject(ActivatedRoute);
 
   public characters = [];
+
+  onSearch() {
+    console.log('hi');
+  }
 
   ngOnInit() {
     this.route.data.subscribe(({ response }) => {

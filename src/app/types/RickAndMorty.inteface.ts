@@ -1,6 +1,6 @@
 export interface RickAndMortyApiResult {
   info: Info;
-  results: Result[];
+  results: RickAndMortyCharacter[];
 }
 
 export interface Info {
@@ -10,7 +10,7 @@ export interface Info {
   prev: string | null;
 }
 
-export interface Result {
+export interface RickAndMortyCharacter {
   id: number;
   name: string;
   status: Status;
