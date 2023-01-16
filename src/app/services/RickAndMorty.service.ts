@@ -1,32 +1,47 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
-import { RickAndMortyApiResult } from '../types/RickAndMorty.inteface';
+import {
+  RickAndMortyApiResult,
+  RickAndMortyCharacter,
+} from '../types/RickAndMorty.inteface';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RickAndMortyService implements Resolve<RickAndMortyApiResult> {
-  constructor(private http: HttpClient) {}
+export class RickAndMortyService {
+  private http = inject(HttpClient);
 
-  resolve(route: ActivatedRouteSnapshot): Observable<RickAndMortyApiResult> {
-    const query = route.queryParams['name']
-      ? `?name=${route.queryParams['name']}`
-      : '';
+  characters$ = new BehaviorSubject<RickAndMortyCharacter[]>([]);
 
-    return this.http.get<RickAndMortyApiResult>(
-      `${environment.RickAndMortyApi}/character${query}`
-    );
+  constructor() {
+    this.searchCharacterByName();
   }
 
-  searchCharacter(
-    characterToFind: string = ''
-  ): Observable<RickAndMortyApiResult> {
-    return this.http.get<RickAndMortyApiResult>(
-      `${environment.RickAndMortyApi}/character?name=${characterToFind}`
-    );
+  getCharacters() {}
+
+  setCharacters(data: RickAndMortyCharacter[]): void {
+    this.characters$.next(data);
+  }
+
+  searchCharacterByName(characterToFind = ''): void {
+    this.http
+      .get<RickAndMortyApiResult>(
+        `${environment.RickAndMortyApi}/character?name=${characterToFind}`
+      )
+      // .subscribe((response: RickAndMortyApiResult) => {
+      //   this.setCharacters(response?.results ?? []);
+      // })
+      .subscribe({
+        next: (response) => {
+          this.setCharacters(response?.results ?? []);
+        },
+        // ? is this bad?
+        error: (error) => {
+          this.setCharacters([]);
+        },
+      });
   }
 }

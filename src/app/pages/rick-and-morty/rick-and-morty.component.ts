@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 
 import { RickAndMortyService } from 'src/app/services/RickAndMorty.service';
 import { RickAndMortyCharacter } from 'src/app/types/RickAndMorty.inteface';
@@ -11,13 +12,14 @@ import { RickAndMortyCharacter } from 'src/app/types/RickAndMorty.inteface';
 export class RickAndMortyComponent {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
-  private readonly RickAndMortySvc = inject(RickAndMortyService);
+
+  constructor(private RickAndMortySvc: RickAndMortyService) {}
 
   private queryParams: Params = {
     name: '',
   };
 
-  public characters: RickAndMortyCharacter[] = [];
+  public characters$!: Observable<RickAndMortyCharacter[]>;
 
   handleNavigate() {
     this.router.navigate([], {
@@ -27,19 +29,15 @@ export class RickAndMortyComponent {
     });
   }
 
-  clearSearch():void {
+  clearSearch(): void {
     this.queryParams['name'] = null;
     this.handleNavigate();
 
-    this.RickAndMortySvc.searchCharacter('').subscribe((result) => {
-      this.characters = result.results;
-    });
+    this.RickAndMortySvc.searchCharacterByName('');
   }
 
   onSearch(value: string) {
-    this.RickAndMortySvc.searchCharacter(value).subscribe((result) => {
-      this.characters = result.results;
-    });
+    this.RickAndMortySvc.searchCharacterByName(value);
 
     this.queryParams['name'] = value;
 
@@ -47,8 +45,6 @@ export class RickAndMortyComponent {
   }
 
   ngOnInit() {
-    this.route.data.subscribe(({ response }) => {
-      this.characters = response.results;
-    });
+    this.characters$ = this.RickAndMortySvc.characters$;
   }
 }
