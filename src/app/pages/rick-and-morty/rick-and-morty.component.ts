@@ -1,5 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+
+import { RickAndMortyService } from 'src/app/services/RickAndMorty.service';
+import { RickAndMortyCharacter } from 'src/app/types/RickAndMorty.inteface';
 
 @Component({
   selector: 'app-rick-and-morty',
@@ -7,16 +10,31 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class RickAndMortyComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly RickAndMortySvc = inject(RickAndMortyService);
 
-  public characters = [];
+  private queryParams: Params = {
+    name: '',
+  };
 
-  onSearch() {
-    console.log('hi');
+  public characters: RickAndMortyCharacter[] = [];
+
+  onSearch(value: string) {
+    this.RickAndMortySvc.searchCharacter(value).subscribe((result) => {
+      this.characters = result.results;
+    });
+
+    this.queryParams['name'] = value;
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: this.queryParams,
+      queryParamsHandling: 'merge', // remove to replace all query params by provided
+    });
   }
 
   ngOnInit() {
     this.route.data.subscribe(({ response }) => {
-      console.log(response.results);
       this.characters = response.results;
     });
   }
