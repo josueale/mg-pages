@@ -4,8 +4,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HomeHeroComponent } from './components/heros/home-hero/home-hero.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
+import { LandingHeroComponent } from './pages/home/components/landing-hero/landing-hero.component';
 import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
@@ -13,8 +13,9 @@ import { HomeComponent } from './pages/home/home.component';
     AppComponent,
 
     HomeComponent,
+
     NavbarComponent,
-    HomeHeroComponent,
+    LandingHeroComponent,
 
 
   ],
